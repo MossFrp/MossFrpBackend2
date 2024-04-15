@@ -1,0 +1,44 @@
+#MossFrp 后端配置文件
+#主控版本
+
+#Mysql设置
+mysqlAddress: "127.0.0.1"
+mysqlPort: "3306"
+mysqlDatabase: "mossfrp"
+mysqlUsername: "root"
+mysqlPassword: "123456"
+mysqlUpdateTime: 135
+
+#WebAPI设置
+webClientPort: "7001"
+webNodePort: "7002"
+webClientHttpsPort: "7003"
+webKeyPassword: "123456"
+
+#邮箱设置
+mailDebug: true
+mailAccount: aaa@163.com
+mailPassword: 123456
+mailSMTPHost: smtp.mossfrp.nb
+mailSMTPPort: 465
+
+#签到设置
+coinMax: 200
+coinMin: 1
+
+#机器人设置
+botEnabled: false
+botNumber: 12345678
+botPassword: 12345678
+botFile: ./MossFrp/Bot
+botLog: false
+botNetworkLog: false
+botCommandPrefix: "#"
+allowGroups: "1072507973,779291908"
+allowAdmins: "1292141077"
+#机器人登录方式（1-password、2-qrcode）
+botLoginType: 1
+#机器人心跳策略（1-STAT_HB、2-REGISTER、3-NONE）
+botHeartbeat: 1
+#机器人登陆协议（1-ANDROID_PHONE、2-ANDROID_PAD、3-ANDROID_WATCH）
+botProtocol: 1

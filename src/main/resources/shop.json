@@ -1,0 +1,54 @@
+{
+  "Activity10000Gold": {
+    "name": "[活动]MossFrp金币*10000",
+    "price": "8",
+    "description": "以优惠价格购买一万金币卡密，使用后可获取一万MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12412",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12412",
+    "wechat": "https://afdian.net/item/7a151ddabb5011ed9a7452540025c377"
+  },
+  "1000Gold": {
+    "name": "MossFrp金币*1000",
+    "price": "1",
+    "description": "购买一千金币卡密，使用后可获取一千MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12366",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12366",
+    "wechat": "https://afdian.net/item/576808b6bb4f11edac5952540025c377"
+  },
+  "5000Gold": {
+    "name": "MossFrp金币*5000",
+    "price": "5",
+    "description": "购买五千金币卡密，使用后可获取五千MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12367",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12367",
+    "wechat": "https://afdian.net/item/3b2a0018bb5011ed87ff52540025c377"
+  },
+  "10000Gold": {
+    "name": "MossFrp金币*10000",
+    "price": "10",
+    "description": "购买一万金币卡密，使用后可获取一万MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12368",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12368"
+  },
+  "20000Gold": {
+    "name": "MossFrp金币*20000",
+    "price": "20",
+    "description": "购买两万金币卡密，使用后可获取两万MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12369",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12369"
+  },
+  "50000Gold": {
+    "name": "MossFrp金币*50000",
+    "price": "50",
+    "description": "购买五万金币卡密，使用后可获取五万MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12370",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12310"
+  },
+  "100000Gold": {
+    "name": "MossFrp金币*100000",
+    "price": "100",
+    "description": "购买十万金币卡密，使用后可获取十万MossFrp金币，可用于购买穿透码哦~",
+    "alipay": "http://www.mcrmb.com/fk/24184/cid/12371",
+    "qq": "http://www.mcrmb.com/fk/24184/cid/12371"
+  }
+}

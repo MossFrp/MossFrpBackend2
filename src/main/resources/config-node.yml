@@ -1,0 +1,16 @@
+#MossFrp 后端配置文件
+#节点版本
+
+#节点基础信息
+nodeName: "[name]"
+nodeAuth: "[auth]"
+
+#主控信息
+centerURL: "http://x.xx.xxx.xx:1234/API"
+
+#linux网卡信息
+ethName: "[eth]"
+
+#windows的powershell操作方式（可视作winServer2012兼容模式）
+#当操作限速模块会卡住的时候设置为true，否则为false
+powershellAsJob: false

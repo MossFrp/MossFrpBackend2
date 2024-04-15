@@ -1,0 +1,47 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MossFrpBackend2">
+    <output-path>$PROJECT_DIR$/out/artifacts/MossFrpBackend2</output-path>
+    <root id="archive" name="MossFrpBackend2.jar">
+      <element id="module-output" name="MossFrpBackend2" />
+      <element id="directory" name="dependency">
+        <element id="library" level="project" name="Maven: org.jetbrains:annotations:19.0.0" />
+        <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
+        <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.33" />
+        <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.25" />
+        <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.78" />
+        <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.36" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:5.12.1" />
+        <element id="library" level="project" name="Maven: com.github.oshi:oshi-core:6.2.2" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:5.12.1" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" />
+        <element id="library" level="project" name="Maven: cn.hutool:hutool-all:5.8.15" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.5.0" />
+        <element id="library" level="project" name="Maven: me.him188:kotlin-dynamic-delegation-jvm:0.4.0-180.1" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-reflect:1.8.10" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:atomicfu-jvm:0.20.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10" />
+        <element id="library" level="project" name="Maven: me.him188:kotlin-jvm-blocking-bridge-runtime-jvm:3.0.0-180.1" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm:1.5.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.8.10" />
+        <element id="library" level="project" name="Maven: io.netty:netty-common:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-buffer:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-transport-native-unix-common:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-resolver:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-transport:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-handler:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: io.netty:netty-codec:4.1.94.Final" />
+        <element id="library" level="project" name="Maven: net.mamoe:mirai-core-jvm:2.16.0" />
+        <element id="library" level="project" name="Maven: net.mamoe:mirai-core-api-jvm:2.16.0" />
+        <element id="library" level="project" name="Maven: net.mamoe:mirai-core-utils-jvm:2.16.0" />
+        <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15on:1.70" />
+        <element id="library" level="project" name="Maven: net.mamoe:mirai-console-compiler-annotations-jvm:2.16.0" />
+      </element>
+    </root>
+  </artifact>
+</component>

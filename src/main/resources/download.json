@@ -1,0 +1,67 @@
+{
+  "bat": {
+    "name": "Exe-Bat版本客户端",
+    "version": "V2.1.3.2",
+    "description": "可用于Windows环境的MossFrp客户端，最简单易用，适合新手小白~",
+    "update": "更新日志：1.更新frpc到0.43.0",
+    "links": {
+      "Github": {
+        "type": "Github下载",
+        "description":"可能需要科学上网才能下载，但是相对稳定",
+        "link": "https://github.com/MossFrp/MossFrpClient-WindowsBat/releases/download/V2.1.3.2/MossFrp_Client.V2.1.3.2.exe"
+      }
+    }
+  },
+  "batFast": {
+    "name": "Exe-Bat版本极速版客户端",
+    "version": "V2.1.3.2",
+    "description": "可用于Windows环境的MossFrp客户端，使用完成后不保存配置文件，不残留其它文件，最简单易用，适合新手小白~",
+    "update": "更新日志：1.更新frpc到0.43.0",
+    "links": {
+      "Github": {
+        "type": "Github下载",
+        "description":"可能需要科学上网才能下载，但是相对稳定",
+        "link": "https://github.com/MossFrp/MossFrpClient-WindowsBat/releases/download/V2.1.3.2/MossFrp_Client_Fastv.V2.1.3.2.exe"
+      }
+    }
+  },
+  "Java": {
+    "name": "Java版本客户端",
+    "version": "V1.5.2.1.2021R",
+    "description": "可用于大多数环境的MossFrp客户端，上手难度较高，但是功能最完整，适合深度使用用户~",
+    "update": "更新内容：1.修复2S卡一下的bug 2.增加禁止日志输出功能，避免日志写爆硬盘 3.修复了在部分环境下无法检测到config路径导致的启动崩溃bug",
+    "links": {
+      "Github": {
+        "type": "Github下载",
+        "description":"可能需要科学上网才能下载，但是相对稳定",
+        "link": "https://github.com/MossFrp/MossFrpClient-Java/releases/download/V1.5.2.1.2021/MossFrpJava.jar"
+      }
+    }
+  },
+  "Java-ForgeSupport": {
+    "name": "MCForge环境依赖",
+    "version": "V1.1",
+    "description": "MossFrp的Forge环境依赖，请搭配Java版客户端作为模组一同食用~（由于各种BUG，我们暂时不建议以模组方式运行MossFrp）",
+    "update": "更新内容：1.开源发布 2.增加了Him",
+    "links": {
+      "Github": {
+        "type": "Github下载",
+        "description":"可能需要科学上网才能下载，但是相对稳定",
+        "link": "https://github.com/MossFrp/MossFrpClient-Java-ForgeSupport/releases/download/V1.1/MossFrpForgeSupport-1.1.jar"
+      }
+    }
+  },
+  "Java-FabricSupport": {
+    "name": "MCFabric环境依赖",
+    "version": "V1.0",
+    "description": "MossFrp的Fabric环境依赖，请搭配Java版客户端作为模组一同食用~（由于各种BUG，我们暂时不建议以模组方式运行MossFrp）",
+    "update": "更新内容：1.开源发布 2.增加了Him",
+    "links": {
+      "Github": {
+        "type": "Github下载",
+        "description":"可能需要科学上网才能下载，但是相对稳定",
+        "link": "https://github.com/MossFrp/MossFrpClient-Java-FabricSupport/releases/download/V1.0/MossFrpFabricSupport-1.0.jar"
+      }
+    }
+  }
+}

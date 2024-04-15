@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MossFrpBackendNode2">
+    <output-path>$PROJECT_DIR$/out/artifacts/MossFrpBackend2/Node</output-path>
+    <root id="archive" name="MossFrpBackendNode2.jar">
+      <element id="module-output" name="MossFrpBackend2" />
+      <element id="directory" name="dependency">
+        <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.78" />
+        <element id="library" level="project" name="Maven: com.github.oshi:oshi-core:6.2.2" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:5.12.1" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:5.12.1" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.36" />
+        <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.33" />
+        <element id="library" level="project" name="Maven: cn.hutool:hutool-all:5.8.15" />
+      </element>
+    </root>
+  </artifact>
+</component>

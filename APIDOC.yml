@@ -1,0 +1,1087 @@
+####MossFrp后端 WebAPI文档####
+#此API文档仅包含Client部分
+#数据返回格式均为JSON，使用GET方式请求
+#请求格式也可使用POST，输入数据请使用JSON格式
+#使用POST格式请在GET参数内加上void=post
+#请严格参照请求格式，注意参数大小写等细节
+#参数返回时http状态码均为200，实际状态码在status参数里面
+#以下接收内容均为返回码为200的情况下才会返回的
+#如果返回码为非200，基本只会有message参数解释
+
+###常用输入参数###
+#"type" 请求类型，必需
+#"token" 请求token，相当于密钥，绑定IP与userID
+#除非示例里面没有用到token，其它情况下都得用
+
+###常用status返回码解析###
+#"200" 请求成功
+#"400" 缺少type参数或该参数错误
+#"400" 参数错误或参数不足
+#"401" Token错误或缺失
+#"403" 无权限访问该内容
+#"423" 当前访问IP被限制为黑名单（出现多次非法请求或爆破等情况会自动拉黑）
+
+###注意事项###
+#1.由于WebAPI本身特性原因，有小概率会出现请求失败的情况，推荐如果请求失败的话，有延迟的重新请求2-3次
+#2.请勿快速请求同一个不需要经常更新的内容，会被视为DOS，我也会不定期翻看各第三方客户端的源码找此类问题
+
+########################################
+
+  ###Login登录请求###
+  #使用API必须的请求
+  #会返回一个token，后续都要使用
+  ##特殊返回码##
+  #"404" 账号或密码错误
+  ##发送内容##
+  {
+    "type": "login", #请求类型
+    "loginType": "qq", #登录方式，qq/email/userID
+    "account": "123456", #登录账号
+    "password": "66666666", #登录密码，无encryption参数则为明文
+    "encryption": "true" #加密，可选参数，true则需password加密为sha-256后传参
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "token": "xxx" #返回的token，应定义为全局变量，全程都要用
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=login&loginType=qq&account=1292141077&password=123456
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "token": "70caf24d-a6de-48ab-9529-deaf92c76776"
+  }
+
+########################################
+
+  ###UserCode用户穿透码信息请求###
+  #也是一个必需的请求
+  #会返回用户所有的穿透码及其完整信息
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "userCode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "getAsList": "true" #是否以List的形式获取数据，可选参数，默认false
+  }
+  ##接收内容##
+  #getAsList为false
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "codeList": [ #穿透码key列表
+      "1",
+      "2"
+    ],
+    "codeData": { #返回的穿透码列表，为JSON形式
+      "1": { #数据编号，一般从1开始，顺序向下排，便于读取
+        "node": "xxx", #节点编号
+        "number": "xxx", #穿透码编号，用于操作穿透码
+        "code": "xxx", #穿透码
+        "activity": "xxx", #是否为活动穿透码（是的话无法删除）
+        "stop": "xxx", #到期时间
+        "port": "xxx", #服务端口，可用端口为顺序后9个
+        "start": "xxx", #创建时间
+        "warning": "xxx", #是否发送到期警告
+        "ID": "xxx", #穿透码编号，仅为区分穿透码使用
+        "band": "xxx", #带宽，单位Mbps
+        "user": "xxx", #用户userID
+        "status": "xxx" #穿透码状态，run为正常运行，outdated为到期，banned为封禁
+      }, #下面同上，只是表现多个穿透码时候的数据结构
+      "2": {
+        "node": "xxx",
+        "number": "xxx",
+        "code": "xxx",
+        "activity": "xxx",
+        "stop": "xxx",
+        "port": "xxx",
+        "start": "xxx",
+        "warning": "xxx",
+        "ID": "xxx",
+        "band": "xxx",
+        "user": "xxx",
+        "status": "xxx"
+      }
+    }
+  }
+  #getAsList为true
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "codeData": [ #返回的穿透码列表，为JSON形式
+      { #数据编号，一般从1开始，顺序向下排，便于读取
+        "node": "xxx", #节点编号
+        "number": "xxx", #穿透码编号，用于操作穿透码
+        "code": "xxx", #穿透码
+        "activity": "xxx", #是否为活动穿透码（是的话无法删除）
+        "stop": "xxx", #到期时间
+        "port": "xxx", #服务端口，可用端口为顺序后9个
+        "start": "xxx", #创建时间
+        "warning": "xxx", #是否发送到期警告
+        "ID": "xxx", #穿透码编号，仅为区分穿透码使用
+        "band": "xxx", #带宽，单位Mbps
+        "user": "xxx", #用户userID
+        "status": "xxx" #穿透码状态，run为正常运行，outdated为到期，banned为封禁
+      },  #下面同上，只是表现多个穿透码时候的数据结构
+      {
+        "node": "xxx",
+        "number": "xxx",
+        "code": "xxx",
+        "activity": "xxx",
+        "stop": "xxx",
+        "port": "xxx",
+        "start": "xxx",
+        "warning": "xxx",
+        "ID": "xxx",
+        "band": "xxx",
+        "user": "xxx",
+        "status": "xxx"
+      }
+    ]
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=userCode&token=1fe470d6-33dc-4e97-81b4-937be4a15bf1
+  #http://[API地址]/API?type=userCode&token=1fe470d6-33dc-4e97-81b4-937be4a15bf1&getAsList=true
+  ##参考返回##
+  #getAsList为false
+  {
+    "status": "200",
+    "time": "123",
+    "codeList": [
+      "1",
+      "2"
+    ],
+    "codeData": {
+      "1": {
+        "node": "test",
+        "number": "1234567",
+        "code": "4test6666666666666666",
+        "activity": "false",
+        "stop": "1966173815000",
+        "port": "40960",
+        "start": "1637661815000",
+        "warning": "false",
+        "ID": "69",
+        "band": "5",
+        "user": "10000000",
+        "status": "run"
+      },
+      "2": {
+        "node": "sq3",
+        "number": "8910111",
+        "code": "3sq666666666666666666",
+        "activity": "false",
+        "stop": "1668595157748",
+        "port": "59410",
+        "start": "1664620757746",
+        "warning": "false",
+        "ID": "4697",
+        "band": "30",
+        "user": "10000000",
+        "status": "run"
+      }
+    }
+  }
+  #getAsList为true
+  {
+    "status": "200",
+    "time": "123",
+    "codeData": [
+      {
+        "node": "test",
+        "number": "1234567",
+        "code": "4test6666666666666666",
+        "activity": "false",
+        "stop": "1966173815000",
+        "port": "40960",
+        "start": "1637661815000",
+        "warning": "false",
+        "ID": "69",
+        "band": "5",
+        "user": "10000000",
+        "status": "run"
+      },
+      {
+        "node": "sq3",
+        "number": "8910111",
+        "code": "3sq666666666666666666",
+        "activity": "false",
+        "stop": "1668595157748",
+        "port": "59410",
+        "start": "1664620757746",
+        "warning": "false",
+        "ID": "4697",
+        "band": "30",
+        "user": "10000000",
+        "status": "run"
+      }
+    ]
+  }
+
+########################################
+
+  ###AllNode全部节点信息请求###
+  #也是挺重要的，毕竟不指望用户会去背下来全部节点
+  #返回数据量有点大，你忍一下
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "allNode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "getAsList": "true" #是否以List的形式获取数据，可选参数，默认false
+  }
+  ##接收内容##
+  #getAsList为false
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "nodeList": [ #节点列表
+      "ab1",
+      "ab2"
+    ],
+    "nodeData": {
+      "ab1": { #节点编号
+        "node": "ab1", #节点编号
+        "address": "xxx", #地区以及网络类型
+        "status": "xxx", #节点状态
+        "name": "ab1-xxx", #节点显示名称
+        "activity": "xxx", #是否为活动节点（活动节点所创建/续期/升配的穿透码都会变成活动穿透码）
+        "load": "xxx%", #节点负载（只有一个的话，就说明是旧版节点，只显示理论负载）
+        "price": "xxx", #价格，单位见coin
+        "band-max-per": "xxx", #单穿透码最高带宽，不代表节点实际最大带宽
+        "coin": "xxx", #购买类型（gold是只能金币购买，silver是只能银币购买，mixed是都可以）
+        "uploadTotal": "xxx", #上传流量总量
+        "downloadTotal": "xxx", #下载流量总量
+        "uploadBand": "xxx", #上传实时带宽
+        "downloadBand": "xxx", #下载实时带宽
+        "CPUUsage": "xxx", #CPU占用
+        "memoryUsed": "xxx", #内存占用
+        "memoryTotal": "xxx", #内存总量
+        "info": "xxx" #节点信息或备注
+      }, #下面同上，只是表现返回多个节点时候的数据结构
+      "ab2": {
+        "node": "ab2",
+        "address": "xxx",
+        "status": "xxx",
+        "name": "ab2-xxx",
+        "activity": "xxx",
+        "load": "xxx% | xxx%", #这里后面那个是实际上行带宽负载
+        "price": "xxx",
+        "band-max-per": "xxx",
+        "coin": "xxx",
+        "uploadTotal": "xxx",
+        "downloadTotal": "xxx",
+        "uploadBand": "xxx",
+        "downloadBand": "xxx",
+        "CPUUsage": "xxx",
+        "memoryUsed": "xxx",
+        "memoryTotal": "xxx",
+        "info": "xxx"
+      }
+    }
+  }
+  #getAsList为true
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "nodeData": [
+      { #节点编号
+        "node": "ab1", #节点编号
+        "address": "xxx", #地区以及网络类型
+        "status": "xxx",  #节点状态
+        "name": "ab1-xxx", #节点显示名称
+        "activity": "xxx", #是否为活动节点（活动节点所创建/续期/升配的穿透码都会变成活动穿透码）
+        "load": "xxx%", #节点负载（只有一个的话，就说明是旧版节点，只显示理论负载）
+        "price": "xxx", #价格，单位见coin
+        "band-max-per": "xxx", #单穿透码最高带宽，不代表节点实际最大带宽
+        "coin": "xxx", #购买类型（gold是只能金币购买，silver是只能银币购买，mixed是都可以）
+        "uploadTotal": "xxx", #上传流量总量
+        "downloadTotal": "xxx", #下载流量总量
+        "uploadBand": "xxx", #上传实时带宽
+        "downloadBand": "xxx", #下载实时带宽
+        "CPUUsage": "xxx", #CPU占用
+        "memoryUsed": "xxx", #内存占用
+        "memoryTotal": "xxx", #内存总量
+        "info": "xxx" #节点信息或备注
+      },
+      {
+        "node": "ab2",
+        "address": "xxx",
+        "status": "xxx",
+        "name": "ab2-xxx",
+        "activity": "xxx",
+        "load": "xxx% | xxx%", #这里后面那个是实际上行带宽负载
+        "price": "xxx",
+        "band-max-per": "xxx",
+        "coin": "xxx",
+        "uploadTotal": "xxx",
+        "downloadTotal": "xxx",
+        "uploadBand": "xxx",
+        "downloadBand": "xxx",
+        "CPUUsage": "xxx",
+        "memoryUsed": "xxx",
+        "memoryTotal": "xxx",
+        "info": "xxx"
+      }
+    ]
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=allNode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  #http://[API地址]/API?type=allNode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0&getAsList=true
+  ##参考返回##
+  #getAsList为false
+  {
+    "status":"200",
+    "time":"123",
+    "nodeList": [ #节点列表
+      "sh6",
+      "sh5"
+    ],
+    "nodeData": {
+      "sh6": {
+        "node": "sh6",
+        "address": "上海腾讯云",
+        "status": "在线",
+        "name": "sh6-上海腾讯云",
+        "activity": "false",
+        "load": "0.00%",
+        "enable": "true",
+        "price": "37",
+        "band-max-per": "10",
+        "coin": "gold",
+        "uploadTotal": "1.23GB",
+        "downloadTotal": "1.55GB",
+        "uploadBand": "2.33Mbps",
+        "downloadBand": "4.56Mbps",
+        "CPUUsage": "14.98",
+        "memoryUsed": "1.57GB",
+        "memoryTotal": "4.00GB",
+        "info": "赞助By-misaka，本节点禁止建站/websocket，禁止v2/ss/trojan/clash以及搭建订阅网站"
+      },
+      "sh5": {
+        "node": "sh5",
+        "address": "上海电信单线",
+        "status": "在线",
+        "name": "sh5-上海电信单线",
+        "activity": "false",
+        "load": "16.00% | 0.10%",
+        "enable": "true",
+        "price": "36",
+        "band-max-per": "30",
+        "coin": "mixed",
+        "uploadTotal": "1.23GB",
+        "downloadTotal": "1.55GB",
+        "uploadBand": "2.33Mbps",
+        "downloadBand": "4.56Mbps",
+        "CPUUsage": "14.98",
+        "memoryUsed": "1.57GB",
+        "memoryTotal": "4.00GB",
+        "info": "赞助By-阳阳，本节点不允许建站，禁止v2/ss/trojan/clash以及搭建订阅网站"
+      }
+    }
+  }
+  #getAsList为true
+  {
+    "status": "200",
+    "time": "123",
+    "nodeData": [
+      {
+        "node": "sh5",
+        "address": "上海腾讯云",
+        "status": "在线",
+        "name": "sh6-上海腾讯云",
+        "activity": "false",
+        "load": "0.00%",
+        "enable": "true",
+        "price": "37",
+        "band-max-per": "10",
+        "coin": "gold",
+        "uploadTotal": "1.23GB",
+        "downloadTotal": "1.55GB",
+        "uploadBand": "2.33Mbps",
+        "downloadBand": "4.56Mbps",
+        "CPUUsage": "14.98",
+        "memoryUsed": "1.57GB",
+        "memoryTotal": "4.00GB",
+        "info": "赞助By-misaka，本节点禁止建站/websocket，禁止v2/ss/trojan/clash以及搭建订阅网站"
+      },
+      {
+        "node": "sh5",
+        "address": "上海电信单线",
+        "status": "在线",
+        "name": "sh5-上海电信单线",
+        "activity": "false",
+        "load": "16.00% | 0.10%",
+        "enable": "true",
+        "price": "36",
+        "band-max-per": "30",
+        "coin": "mixed",
+        "uploadTotal": "1.23GB",
+        "downloadTotal": "1.55GB",
+        "uploadBand": "2.33Mbps",
+        "downloadBand": "4.56Mbps",
+        "CPUUsage": "14.98",
+        "memoryUsed": "1.57GB",
+        "memoryTotal": "4.00GB",
+        "info": "赞助By-阳阳，本节点不允许建站，禁止v2/ss/trojan/clash以及搭建订阅网站"
+      }
+    ]
+  }
+
+########################################
+
+  ###RemoveCode删除穿透码请求###
+  #一个有一定风险的请求，请在客户端做好确认机制
+  #后端不会提供确认机制，发了请求就直接删除了
+  ##特殊返回码##
+  #"403" 各种错误原因，详见message参数
+  ##发送内容##
+  {
+    "type": "removeCode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "node": "xxx", #该穿透码的节点
+    "number": "xxx" #该穿透码的七位数字编号
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "coin": "xxx" #删除该穿透码所返还的银币（一般是扣除当天）
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=removeCode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0&node=sq1&number=1234567
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "coin": "999"
+  }
+
+########################################
+
+  ###CreateCode创建穿透码请求###
+  #通过请求自动创建穿透码，创建完成后需要一定时间给节点响应
+  #后端不会提供确认机制，发了请求就直接创建了
+  ##特殊返回码##
+  #"403" 各种创建失败原因，详见message参数
+  ##发送内容##
+  {
+    "type": "createCode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "node": "xxx", #该穿透码的节点
+    "date": "xxx", #穿透码时长，单位：天
+    "band": "xxx" #穿透码带宽，单位：Mbps
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "coin": "xxx", #创建该穿透码所消耗的银币
+    "type": "xxx", #所使用的货币类型（MIXED混合，GOLD金币，SILVER银币）
+    "ID": "15462" #唯一ID
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=createCode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0&node=sq1&band=1&date=3
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "coin": "120",
+    "type": "MIXED"
+  }
+
+########################################
+
+  ###Verification验证码请求###
+  #通过请求向目标游戏发送六位验证码，并存入缓存
+  #才能进行后续需要验证码的操作比如注册，一个邮箱只能同时缓存一个验证码，验证码每隔60S才能发送一次
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "verification", #请求类型
+    "email": "xxx", #用户的邮箱
+    "key": "xxx" #本次验证码用途，可填参数见具体请求需求
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=verification&email=1292141077@qq.com&key=register
+  ##参考返回##
+  {
+    "status": "200"
+  }
+
+########################################
+
+  ###Register注册请求###
+  #需要先发送verification请求向邮箱发送验证码才可以注册
+  #此方法为敏感方法，发现异常会被立刻阻断，客户端需要自备人机验证，API后续开发会提供人机验证
+  #对于QQ这一些非必要参数，可以通过更新信息的API进行补充
+  #注意，此方法是验证码通过在前，信息检查在后，故一旦信息不合法，需要获取新的验证码（冷却不重置）
+  ##特殊返回码##
+  #"403" 信息有误，详见message参数
+  #"404" 验证码错误
+  ##发送内容##
+  {
+    "type": "register", #请求类型
+    "email": "xxx", #用户的邮箱
+    "username": "xxx", #用户名称
+    "password": "xxx", #用户密码
+    "code": "xxx" #发送verification请求后获得的验证码，verification请求的key参数：register
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=register&email=1292141077@qq.com&username=MossCG&code=ABC123&password=www123www
+  ##参考返回##
+  {
+    "status": "200"
+  }
+
+########################################
+
+  ###InfoUpdate请求###
+  #需要先发送verification请求向邮箱发送验证码才可以操作
+  #此方法为敏感方法，发现异常会被立刻阻断，客户端需要自备人机验证，API后续开发会提供人机验证
+  #当更新邮件的时候，需要向两个邮箱（新旧）同时发送infoUpdate验证码，客户端需要判定俩邮箱是否一致
+  #QQ参数只能在QQ机器人那里解绑绑定
+  #注意，此方法是验证码通过在前，信息检查在后，故一旦信息合法，需要获取新的验证码（冷却不重置）
+  ##特殊返回码##
+  #"403" 信息有误，详见message参数
+  #"404" 验证码错误
+  ##发送内容##
+  {
+    "type": "infoUpdate", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "key": "xxx", #更新的目标参数（username用户名称，email邮箱，password密码）
+    "value": "xxx", #对应参数的信息
+    "code": "xxx", #发送verification请求后获得的验证码，verification请求的key参数：infoUpdate
+    "code2": "xxx" #只有在更新email的时候才会用到，平时不需要加，作为新邮箱的验证码
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=infoUpdate&key=email&value=1292141077@qq.com&code=ABC123&code2=DEF456&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "status": "200"
+  }
+
+########################################
+
+  ###UserInfo用户信息请求###
+  #也是一个必需的请求
+  #会返回用户所有的非隐私信息
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "userInfo", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "userInfo": { #返回的用户信息列表，为JSON信息
+      "userID": "xxx", #用户编号
+      "username": "xxx", #用户名称
+      "email": "xxx", #邮箱
+      "qq": "xxx", #QQ，可能为null
+      "signIn": "xxx", #用户是否签到，布尔值
+      "level": "xxx", #用户等级（admin站长、staff管理员、provider节点提供者、default普通用户、banned封禁用户）
+      "gold": "xxx", #金币数量
+      "silver": "xxx" #银币数量
+    }
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=userInfo&token=1fe470d6-33dc-4e97-81b4-937be4a15bf1
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "userInfo": {
+      "userID": "10000000",
+      "username": "墨守MossCG",
+      "email": "1292141077@qq.com",
+      "qq": "1292141077",
+      "signIn": "true",
+      "level": "admin",
+      "gold": "10000",
+      "silver": "100000"
+    }
+  }
+
+########################################
+
+  ###DateCode续期穿透码请求###
+  #通过请求自动续期穿透码
+  #后端不会提供确认机制，发了请求就直接续期了
+  ##特殊返回码##
+  #"403" 各种创建失败原因，详见message参数
+  ##发送内容##
+  {
+    "type": "dateCode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "node": "xxx", #该穿透码的节点
+    "number": "xxx", #该穿透码的7位编号
+    "date": "xxx" #穿透码续期时长，单位：天
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "coin": "xxx", #续期该穿透码所消耗的银币
+    "type": "xxx" #所使用的货币类型（MIXED混合，GOLD金币，SILVER银币）
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=dateCode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0&node=sq1&number=1234567&date=3
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "coin": "120",
+    "type": "MIXED"
+  }
+
+########################################
+
+  ###BandCode升配穿透码请求###
+  #通过请求自动升配穿透码
+  #后端不会提供确认机制，发了请求就直接升配了
+  ##特殊返回码##
+  #"403" 各种创建失败原因，详见message参数
+  ##发送内容##
+  {
+    "type": "bandCode", #请求类型
+    "token": "xxx", #token，绑定用户的userID
+    "node": "xxx", #该穿透码的节点
+    "number": "xxx", #该穿透码的7位编号
+    "band": "xxx" #穿透码增加带宽（注意不是”增加到“是”增加“），单位：Mbps
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "coin": "xxx", #续期该穿透码所消耗的银币
+    "type": "xxx" #所使用的货币类型（MIXED混合，GOLD金币，SILVER银币）
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=bandCode&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0&node=sq1&number=1234567&band=3
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "coin": "120",
+    "type": "MIXED"
+  }
+
+########################################
+
+  ###forgetPassword忘记密码请求###
+  #需要先发送verification请求向邮箱发送验证码才可以修改密码
+  #此方法为敏感方法，发现异常会被立刻阻断，客户端需要自备人机验证，API后续开发会提供人机验证
+  #注意，此方法是验证码通过在前，信息检查在后，故一旦信息不合法，需要获取新的验证码（冷却不重置）
+  ##特殊返回码##
+  #"403" 信息有误，详见message参数
+  #"404" 验证码错误
+  ##发送内容##
+  {
+    "type": "forgetPassword", #请求类型
+    "email": "xxx", #用户的邮箱
+    "password": "xxx", #用户新密码
+    "code": "xxx" #发送verification请求后获得的验证码，verification请求的key参数：forgetPassword
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=forgetPassword&email=1292141077@qq.com&code=ABC123&password=www123www
+  ##参考返回##
+  {
+    "status": "200"
+  }
+
+########################################
+
+  ###statistic统计信息请求###
+  #会返回一些实时的统计信息
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "statistic", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "userCount": "xxx", #MossFrp用户总数
+    "codeCount": "xxx", #MossFrp在线隧道总数
+    "nodeCount": "xxx", #MossFrp可用节点总数
+    "signInCount": "xxx", #MossFrp今日签到总数
+    "userCodeCount": "xxx", #该用户在线穿透码总数
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=statistic&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "userCount": "3101",
+    "codeCount": "227",
+    "nodeCount": "16",
+    "signInCount": "304",
+    "userCodeCount": "3",
+    "status": "200"
+  }
+
+########################################
+
+  ###luck今日人品请求###
+  #返回用户的今日人品
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "luck", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "first": "xxx", #是否用户今日第一次获取今日人品，布尔值
+    "luck": "xxx", #用户今日人品数值
+    "luckMessage": "xxx", #用户今日人品信息
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=luck&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "first": "true",
+    "luck": "100",
+    "luckMessage": "欧皇出现辣~斯哈斯哈斯哈（吸欧气.gif）",
+    "status": "200"
+  }
+
+########################################
+
+  ###signIn签到请求###
+  #返回用户的签到数据
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "signIn", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "first": "xxx", #是否用户今日第一次签到，布尔值
+    "luck": "xxx", #用户今日人品数值
+    "luckMessage": "xxx", #用户今日人品信息
+    "coin": "xxx", #用户签到获取的银币
+    "signInMessage": "xxx", #用户签到的返回信息
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=signIn&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "first": "true",
+    "luck": "100",
+    "luckMessage": "欧皇出现辣~斯哈斯哈斯哈（吸欧气.gif）",
+    "coin": "128",
+    "signInMessage": "今日签到成功！\r\n获得了128枚银币！",
+    "status": "200"
+  }
+
+########################################
+
+  ###cardUse卡密使用请求###
+  #使用卡密
+  #此方法为敏感方法，使用错误的卡密会计入三次BadRequest
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "cardUse", #请求类型
+    "card": "xxx", #卡密
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "success": "xxx", #是否使用成功，布尔值
+    "message": "xxx", #对应返回信息，可直接显示输出
+    "status": "200", #返回码
+    "time": "123" #响应时间
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=cardUse&card=94YK1X1JP4IGB22G&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "success": "true",
+    "message": "使用成功！你获得了100银币",
+    "status": "200"
+  }
+
+########################################
+
+  ###notice公告请求###
+  #会返回MossFrp的公告
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "notice", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "list": "xxx", #公告ID列表，请按顺序显示
+    "status": "200", #返回码
+    "time": "123",  #响应时间
+    "noticeData": [ #公告数据
+      {
+        "ID": "1", #公告ID
+        "type": "SUPER", #SUPER超级置顶，优先级大于TOP置顶，最低的是NORMAL
+        "title": "xxx", #公告标题
+        "text": "xxx" #公告文本
+      },
+      {
+        "ID": "2", #公告ID
+        "type": "TOP", #TOP置顶，高于NORMAL
+        "title": "xxx", #公告标题
+        "text": "xxx" #公告文本
+      }
+    ]
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=notice&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "list": "[1,2]",
+    "status": "200",
+    "time": "123",
+    "noticeData": [
+      {
+        "ID": "1",
+        "type": "SUPER",
+        "title": "【置顶】测试1",
+        "text": "测试1阿巴巴"
+      },
+      {
+        "ID": "2",
+        "type": "TOP",
+        "title": "测试1",
+        "text": "测试2阿巴巴"
+      }
+    ]
+  }
+
+########################################
+
+  ###advertisement广告请求###
+  #会返回MossFrp的广告，一般情况下不会是空数据，但也仅限于一般情况下
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "advertisement", #请求类型
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123",  #响应时间
+    "advertisementData": [ #广告数据
+      {
+        "ID": "1", #广告ID
+        "link": "https://www.xxx.top/xx.png",
+        "jump": "https://www.xxx.top/"
+
+      },
+      {
+        "ID": "2", #广告ID
+        "link": "https://www.aaaa.top/xxx.png",
+        "jump": "https://www.aaaa.top/"
+      }
+    ]
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=advertisement
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "advertisementData": [
+      {
+        "ID": "1",
+        "link": "https://www.xxx.top/xx.png",
+        "jump": "https://www.xxx.top/"
+      },
+      {
+        "ID": "2",
+        "link": "https://www.aaaa.top/xxx.png",
+        "jump": "https://www.aaaa.top/"
+      }
+    ]
+  }
+
+########################################
+
+  ###shop商场请求###
+  #会返回MossFrp的充值链接等数据
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "shop", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123",  #响应时间
+    "shopData": [ #商城数据
+      {
+        "name": "xxx", #商品名称
+        "price": "xx", #商品价格，理论上全渠道一样
+        "description": "xxx", #商品描述
+        "alipay": "xxx", #支付宝链接，返回数据可能为null，即无法使用该渠道支付
+        "qq": "xxx", #QQ支付链接，返回数据可能为null，即无法使用该渠道支付
+        "wechat": "xxx" #微信支付链接，返回数据可能为null，即无法使用该渠道支付
+      },
+      {
+        "name": "xxx", #商品名称
+        "price": "xx", #商品价格，理论上全渠道一样
+        "description": "xxx", #商品描述
+        "alipay": "xxx", #支付宝链接，返回数据可能为null，即无法使用该渠道支付
+        "qq": "xxx", #QQ支付链接，返回数据可能为null，即无法使用该渠道支付
+        "wechat": "xxx" #微信支付链接，返回数据可能为null，即无法使用该渠道支付
+      }
+    ]
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=shop&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "shopData": [
+      {
+        "name": "MossFrp金币*1000",
+        "price": "1",
+        "description": "购买1000金币卡密，使用后可获取1000MossFrp金币，可用于购买穿透码哦~",
+        "alipay": "http://www.mcrmb.com/fk/24184/cid/12366",
+        "qq": "http://www.mcrmb.com/fk/24184/cid/12366",
+        "wechat": "https://afdian.net/item/576808b6bb4f11edac5952540025c377"
+      },
+      {
+        "name": "MossFrp金币*5000",
+        "price": "5",
+        "description": "购买5000金币卡密，使用后可获取5000MossFrp金币，可用于购买穿透码哦~",
+        "alipay": "http://www.mcrmb.com/fk/24184/cid/12367",
+        "qq": "null",
+        "wechat": "https://afdian.net/item/3b2a0018bb5011ed87ff52540025c377"
+      }
+    ]
+  }
+
+########################################
+
+  ###download下载链接请求###
+  #会返回MossFrp的下载链接等数据
+  ##特殊返回码##
+  #无
+  ##发送内容##
+  {
+    "type": "download", #请求类型
+    "token": "xxx" #token，绑定用户的userID
+  }
+  ##接收内容##
+  {
+    "status": "200", #返回码
+    "time": "123", #响应时间
+    "downloadData": { #客户端下载数据
+      "xxx": { #版本ID
+        "name": "xxx", #版本名称
+        "version": "xxx", #该客户端版本的版本号
+        "description": "xxx", #该客户端的简介
+        "update": "xxx", #更新日志
+        "links": { #链接列表
+          "xxx": { #链接名称
+            "type": "xxx", #链接类型
+            "description": "xxx", #链接描述
+            "link": "xxx" #链接
+          }
+        }
+      },
+      "xx": {
+        "name": "xxx",
+        "version": "xxx",
+        "description": "xxx",
+        "update": "xxx",
+        "links": {
+          "github": {
+            "description": "xxx",
+            "link": "xxx"
+          }
+        }
+      }
+    }
+  }
+  ##参考用法##
+  #http://[API地址]/API?type=download&token=1ccb96bb-16d1-4d81-bb89-358aa6a8edc0
+  ##参考返回##
+  {
+    "status": "200",
+    "time": "123",
+    "downloadData": {
+      "bat": {
+        "name": "Exe-Bat版本客户端",
+        "version": "V2.1.3.2",
+        "description": "可用于Windows环境的MossFrp客户端，最简单易用，适合新手小白~",
+        "update": "更新日志：1.更新frpc到0.43.0",
+        "links": {
+          "github": {
+            "type": "github",
+            "description":"可能需要科学上网才能下载，但是相对稳定",
+            "link": "https://github.com/MossFrp/MossFrpClient-WindowsBat/releases/download/V2.1.3.2/MossFrp_Client.V2.1.3.2.exe"
+          }
+        }
+      },
+      "batFast": {
+        "name": "Exe-Bat版本极速版客户端",
+        "version": "V2.1.3.2",
+        "description": "可用于Windows环境的MossFrp客户端，使用完成后不保存配置文件，不残留其它文件，最简单易用，适合新手小白~",
+        "update": "更新日志：1.更新frpc到0.43.0",
+        "links": {
+          "github": {
+            "type": "github",
+            "description":"可能需要科学上网才能下载，但是相对稳定",
+            "link": "https://github.com/MossFrp/MossFrpClient-WindowsBat/releases/download/V2.1.3.2/MossFrp_Client_Fastv.V2.1.3.2.exe"
+          }
+        }
+      }
+    }
+  }
+
+########################################
