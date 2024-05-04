@@ -125,6 +125,7 @@ public class CommandCenter {
                 break;
             case "addIP":
                 if (args.length < 4) {
+                    //addIP blacklist add 58.48.32.154 FOREVER
                     sendWarn("指令参数错误！示例：addIP whitelist add 192.168.200.3 FOREVER");
                 } else {
                     String dataString = null;

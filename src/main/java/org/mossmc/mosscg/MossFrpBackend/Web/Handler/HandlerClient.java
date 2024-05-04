@@ -10,6 +10,8 @@ import org.mossmc.mosscg.MossFrpBackend.Web.WebBasic;
 import org.mossmc.mosscg.MossFrpBackend.Web.WebBlacklist;
 import org.mossmc.mosscg.MossFrpBackend.Web.WebResponse;
 
+import java.util.Random;
+
 import static org.mossmc.mosscg.MossFrpBackend.Logger.LoggerSender.*;
 
 public class HandlerClient implements HttpHandler {
@@ -25,6 +27,7 @@ public class HandlerClient implements HttpHandler {
             data.put("remoteIP",IP);
             if (WebBlacklist.checkBlacklist(IP)) {
                 RequestBlacklist.getReply(exchange,data,responseData);
+                Thread.sleep(new Random().nextInt(5000)+1000);
                 WebResponse.completeResponse(exchange,responseData,data,Enums.typeAPI.CLIENT,receive);
                 return;
             }
