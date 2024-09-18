@@ -22,7 +22,7 @@ public class NodeThread {
 
     @SuppressWarnings({"InfiniteLoopStatement", "BusyWait"})
     public static void updateVoid() {
-        int updateTime = 20;
+        int updateTime = 10;
         int time = 0;
         while (true) {
             try {

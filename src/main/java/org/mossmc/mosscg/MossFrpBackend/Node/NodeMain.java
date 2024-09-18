@@ -7,5 +7,6 @@ public class NodeMain {
         NodeNumber.loadUsedNumber();
         NodeStatic.updateThread();
         NodeThread.runThread();
+        NodeReliable.runThread();
     }
 }

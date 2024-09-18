@@ -43,8 +43,8 @@ public class NodeCache {
                 nodeData.put("CPUUsage", NodeStatic.getData(node, "CPUUsage"));
                 nodeData.put("memoryUsed", NodeStatic.getData(node, "MemoryUsed"));
                 nodeData.put("memoryTotal", NodeStatic.getData(node, "MemoryTotal"));
-                nodeData.put("memoryTotal", NodeStatic.getData(node, "MemoryTotal"));
                 nodeData.put("name", node+"-"+nodeDataMap.get("address"));
+                nodeData.putAll(NodeReliable.getReliableData(node));
                 data.put(node,nodeData);
             }
         });
@@ -171,6 +171,14 @@ public class NodeCache {
             if (key.equals("version")) {
                 info = nodeVersionCache.getOrDefault(nodeName, "nope");
             }
+            if (key.equals("reliable")) {
+                JSONObject data = NodeReliable.getReliableData(nodeName);
+                info = data.getString("reliableTotal")+data.getString("reliableDaily");
+            }
+            if (key.equals("reliableData")) {
+                JSONObject data = NodeReliable.getReliableData(nodeName);
+                info = data.getString("reliableTotalData").replace("|"," | ")+" & "+data.getString("reliableDailyData").replace("|"," | ");
+            }
             if (info == null) {
                 info = NodeStatic.getData(nodeName,key);
             }
@@ -194,6 +202,7 @@ public class NodeCache {
 
         Enums.nodeStatusType nodeStatusType = nodeStatusCache.getOrDefault(node, Enums.nodeStatusType.OFFLINE);
         Enums.coinType nodeCoinType = Enums.coinType.valueOf(nodeCache.get(node).get("coin").toUpperCase());
+        JSONObject reliableData = NodeReliable.getReliableData(node);
 
         String statusName = getNodeStatusName(nodeStatusType);
         String coinName = getCoinTypeName(nodeCoinType);
@@ -208,6 +217,7 @@ public class NodeCache {
             message = new StringBuilder("\r\n-=*[" + statusName + "][" + node + "节点][" + address + "]*=-");
         }
         message.append("\r\n理论负载：").append(nodeCache.get(node).get("load"));
+        message.append("\r\n可用占比：").append(reliableData.getString("reliableTotal")).append("|").append(reliableData.getString("reliableDaily"));
         message.append("\r\n带宽价格：").append(nodeCache.get(node).get("price")).append(coinName).append("/Mbps/天");
         if (!mode.equals("full")) {
             return message.toString();

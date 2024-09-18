@@ -62,6 +62,7 @@ public class BotMessage {
         } catch (Exception e) {
             sendException(e);
         }
+        registerCommand("#SLA","org.mossmc.mosscg.MossFrpBackend.Bot.Reply.ReplyReliable");
         registerCommand("#增加天数","org.mossmc.mosscg.MossFrpBackend.Bot.Reply.ReplyAddAllDay");
         registerCommand("#设置IP","org.mossmc.mosscg.MossFrpBackend.Bot.Reply.ReplyAddIP");
         registerCommand("#广告","org.mossmc.mosscg.MossFrpBackend.Bot.Reply.ReplyAdvertisement");

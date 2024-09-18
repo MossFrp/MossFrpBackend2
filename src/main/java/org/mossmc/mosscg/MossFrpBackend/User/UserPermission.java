@@ -2,7 +2,6 @@ package org.mossmc.mosscg.MossFrpBackend.User;
 
 import com.alibaba.fastjson.JSONObject;
 import org.mossmc.mosscg.MossFrpBackend.BasicInfo;
-import org.mossmc.mosscg.MossFrpBackend.Logger.LoggerSender;
 
 import java.util.HashMap;
 import java.util.Map;

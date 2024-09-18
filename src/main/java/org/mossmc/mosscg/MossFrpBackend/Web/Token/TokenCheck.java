@@ -3,12 +3,6 @@ package org.mossmc.mosscg.MossFrpBackend.Web.Token;
 import com.alibaba.fastjson.JSONObject;
 import org.mossmc.mosscg.MossFrpBackend.Node.NodeCache;
 import org.mossmc.mosscg.MossFrpBackend.User.UserIP;
-import org.mossmc.mosscg.MossFrpBackend.Web.WebAdvertisement;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import static org.mossmc.mosscg.MossFrpBackend.Logger.LoggerSender.sendException;
 
 public class TokenCheck {
     public static boolean checkNode(JSONObject data) {
